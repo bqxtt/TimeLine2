@@ -9,11 +9,12 @@
 
 ##### 测试结果
 
-+ dao层![image-20191128182307979](daoTest.png)
-
-+ service层![image-20191128182456104](serviceTest.png)
-
-+ controller层![image-20191128182615759](controllerTest.png)
++ dao层
+![image-20191128182307979](daoTest.png)
++ service层
+![image-20191128182456104](serviceTest.png)
++ controller层
+![image-20191128182615759](controllerTest.png)
 
 
 ##### 提交界面 localhost:8080/submit
