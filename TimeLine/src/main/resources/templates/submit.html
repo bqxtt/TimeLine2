@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>发送动态</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+    </script>
+    <script>
+        var flag = false;
+
+        function submit()
+        {
+            var user = $("#user").val()
+            var content = $("#content").val()
+            if(user == "" || content == "")
+            {
+                alert("字段不能为空")
+                return 
+            }
+            var image = $("#img").attr("src")
+            if (!flag)
+            {
+                image = ""
+            }
+            flag = false
+            console.log(image)
+            console.log(flag)
+            // $.ajax(
+            // {
+            //     type:"post",
+            //     url:"http://localhost:8080/TomcatTest/HelloForm",
+            //     dataType:"jsonp",
+            //     crossDomain: true,
+            //     //headers: {  'Access-Control-Allow-Origin': '*' },
+            //     data:{
+            //         user: user,
+            //         content: content,
+            //         image: image
+            //     },
+
+            //     success:function()
+            //     {
+            //         alert("sss");
+            //     },
+
+            // });
+            $.post(
+                "http://localhost:8080/send",
+                {
+                    user: user,
+                    content: content,
+                    image: image
+                },
+                function(data)
+                {
+                	if(data == "success")
+                    	alert("发送成功")
+                    else
+                    	alert("发送失败")
+                    window.location.reload();
+                }
+            )
+        }
+        $(function()
+        {
+            $("#img").click(
+                function()
+                {
+                    $("#picture").click()
+                }
+            )
+        })
+
+        function upLoadFile(file)
+        {
+            let pic = file.files[0]
+            let fileReader = new FileReader()
+            fileReader.readAsDataURL(pic)
+            fileReader.addEventListener("load", function()
+            {
+                $("#img").attr("src", fileReader.result)
+                flag = true
+            })
+        }
+
+        function showResult()
+        {
+            window.location.href = "http://localhost:8080/showResult"
+        }
+    </script>
+    <style>
+        #inputArea {
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="inputArea">
+        <div>
+            <p>作者：</p>
+            <input id="user" type="text" required />
+        </div>
+
+        <div>
+            <p>内容：</p>
+            <textarea id="content" placeholder="说点什么吧。。。" rows="30" cols="100"></textarea>
+        </div>
+
+        <div>
+            <p>选择图片：</p>
+            <input id="picture" type="file" accept="image/*" onchange="upLoadFile(this)" style="display: none" />
+            <img id="img" width="200" height="200" src="3994459534-5c3185f0b6e3c.png" />
+        </div>
+
+        <div>
+            <button onclick="submit()">提交</button>
+            <br /><br /><br />
+
+            <button onclick="showResult()">浏览动态</button>
+        </div>
+    </div>
+
+</body>
+
+<marquee>
+    <font size=+3 color=red>Hello, World</font>
+</marquee>
+
+</html>

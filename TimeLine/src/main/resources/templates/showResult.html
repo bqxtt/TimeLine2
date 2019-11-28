@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+    </script>
+    <title>浏览动态</title>
+    <script>
+
+        $(function()
+        {
+            $.get(
+                "http://localhost:8080/messages",
+                function(data)
+                {
+                    var element = document.getElementsByClassName("contentList")[0]
+                    var messages = JSON.parse(data)
+                    for(var p in messages)
+                    {
+                        console.log(messages[p].userName)
+                        console.log(messages[p].content)
+                        var div = document.createElement("div")
+                        var h3 = document.createElement("h3")
+                        h3.innerHTML = messages[p].userName
+                        div.appendChild(h3)
+                        var pp = document.createElement("p")
+                        pp.innerHTML = messages[p].content
+                        div.appendChild(pp)
+
+                        if(messages[p].image != "")
+                        {
+                            var image = document.createElement("img")
+                            image.src = messages[p].image
+                            image.height = 200
+                            image.width = 200
+                            var br = document.createElement("br")
+                            div.appendChild(image)
+                            div.appendChild(br)
+                        }
+
+                        var span = document.createElement("span")
+                        var time = messages[p].uploadTime;
+                        var year = time.year + 1900
+                        var month = time.month + 1
+                        span.innerHTML = year + "-" + month + "-" + time.date + " " + time.hours + ":" + time.minutes + ":" + time.seconds
+                        div.appendChild(span)
+
+                        var hr = document.createElement("hr")
+
+                        element.appendChild(div)
+                        element.appendChild(hr)
+                    }
+                    //window.location.reload();
+                }
+            )
+        })
+
+        function submit()
+        {
+            window.location.href = "http://localhost:8080/submit";
+        }
+    </script>
+    <style>
+        .mainArea
+        {
+            text-align: center;
+        }
+        h3
+        {
+            color:orange;
+            text-align:left;
+        }
+    </style>
+</head>
+
+<body>
+    <button type="button" onclick="submit()" style="text-align: right">发送动态</button>
+        <br />
+    <div class = "mainArea">
+        <h1>浏览动态</h1>
+        <hr>
+        <ul class="contentList">
+
+
+        </ul>
+    </div>
+</body>
+
+</html>
